@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DO i love you?</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            background-color: #e60023;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+       
+        .heart-bg {
+            position: absolute;
+            top: -10vh;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.5rem;
+            animation: fall linear infinite;
+            user-select: none;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        h2 {
+            color: #d63031;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ff7675;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            outline: none;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #d63031;
+            box-shadow: 0 0 8px rgba(214, 48, 49, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #d63031;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #b22222;
+            transform: translateY(-2px);
+        }
+
+        
+        .big-heart-container {
+            margin-top: 25px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .big-heart {
+            width: 200px;
+            height: 180px;
+            background-color: #ff2a5f;
+            position: relative;
+            transform: rotate(-45deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .big-heart::before,
+        .big-heart::after {
+            content: "";
+            width: 200px;
+            height: 180px;
+            background-color: #ff2a5f;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .big-heart::before {
+            top: -90px;
+            left: 0;
+        }
+
+        .big-heart::after {
+            left: 90px;
+            top: 0;
+        }
+
+        .heart-text {
+            position: absolute;
+            transform: rotate(45deg); 
+            z-index: 15;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            width: 180px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div id="hearts-container"></div>
+
+    <div class="card">
+        <h2>اكتب اسمك هنا</h2>
+        <div class="input-group">
+            <input type="text" id="userName" placeholder="اوف بجد..." autocomplete="off">
+        </div>
+        <button onclick="showMessage()">دووووووس هنا✨</button>
+
+        
+        <div class="big-heart-container" id="heartResult">
+            <div class="big-heart" id="heartShape">
+                <div class="heart-text" id="messageText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+        
+        const hatedNames = ["زياد", "مازن", "محمد", "نور", "فوزي"];
+
+        
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartIcons = ['❤️', '💖', '💕', '💗', '💓'];
+
+        for (let i = 0; i < 25; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        
+        function showMessage() {
+            const nameInput = document.getElementById('userName').value.trim();
+            const resultDiv = document.getElementById('heartResult');
+            const messageText = document.getElementById('messageText');
+            const heartShape = document.getElementById('heartShape');
+
+            if (nameInput === "") {
+                alert("من فضلك اكتب اسم الأول!");
+                return;
+            }
+
+            
+            const isHated = hatedNames.some(name => name.toLowerCase() === nameInput.toLowerCase());
+
+            if (isHated) {
+                messageText.innerText = `أنا بكرهك نيك و طيزك حمرا نيك يا${nameInput} 😤`;
+                
+                heartShape.style.backgroundColor = "#2d3436";
+                document.styleSheets[0].addRule('.big-heart::before', 'background-color: #2d3436;');
+                document.styleSheets[0].addRule('.big-heart::after', 'background-color: #2d3436;');
+            } else {
+                messageText.innerText = `أنا بحبك يا ${nameInput} ❤️`;
+                
+                heartShape.style.backgroundColor = "#ff2a5f";
+                document.styleSheets[0].addRule('.big-heart::before', 'background-color: #ff2a5f;');
+                document.styleSheets[0].addRule('.big-heart::after', 'background-color: #ff2a5f;');
+            }
+
+            
+            resultDiv.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
